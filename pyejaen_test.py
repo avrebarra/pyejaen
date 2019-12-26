@@ -12,6 +12,10 @@ class TestParse(unittest.TestCase):
             {
                 "given": "((a)((ya)(m)))",
                 "expected": ["a", "y", "a", "ya", "m", "yam", "ayam"]
+            },
+            {
+                "given": "(((se)(ma))((ra)(!ng)))",
+                "expected": ["s", "e", "se", "m", "a", "ma", "sema", "r", "a", "ra", "ng", "rang", "semarang"]
             }
         ]
 
