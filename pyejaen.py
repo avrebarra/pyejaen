@@ -2,33 +2,28 @@ debug_mode = False
 
 
 def parse(syntax):
-    stackmem = {}
-    stacknum = 0
+    stack = {}
     result = []
 
+    stackdepth = 0
+
     # fill base stack
-    stackmem[stacknum] = ""
+    stack[stackdepth] = ""
 
     for char in syntax:
         if char == "(":
-            debug("OPEN stack {}".format(stacknum))
-            stacknum += 1
-            stackmem[stacknum] = ""
+            stackdepth += 1
+            stack[stackdepth] = ""
         elif char == ")":
-            debug("CLOSE stack {}".format(stacknum))
+            if len(stack[stackdepth]) > 1:
+                result.append(stack[stackdepth])
 
-            if len(stackmem[stacknum]) > 1:
-                result.append(stackmem[stacknum])
-
-            stackmem[stacknum - 1] += stackmem[stacknum]
-            stacknum -= 1
+            stack[stackdepth - 1] += stack[stackdepth]
+            stackdepth -= 1
         else:
-            debug("ADD {}".format(char))
-            stackmem[stacknum] += char
+            stack[stackdepth] += char
             result.append(char)
-            debug("   stack fill {}".format(stackmem[stacknum]))
 
-    debug(result)
     return result
 
 
