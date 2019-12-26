@@ -1,4 +1,4 @@
-import json
+# import json
 
 
 def parse(syntax):
@@ -62,6 +62,9 @@ def parse_tree(syntax):
     root = make_node(True, "")  # root/parent object
     current_node = root
 
+    # flags
+    should_merge_letters = False
+
     # step = 1
     # depth = 0
 
@@ -82,13 +85,18 @@ def parse_tree(syntax):
             parent = current_node["parent"]
             current_node.pop("parent", None)
 
-            if len(current_node["children"]) <= 1:
+            if should_merge_letters or len(current_node["children"]) <= 1:
                 current_node.pop("children", None)
+                should_merge_letters = False
                 pass
 
             current_node = parent
 
             # depth -= 1
+
+        # Upon finding "!" or MERGE_LETTERS
+        elif char == "!":
+            should_merge_letters = True
 
         # Upon finding LETTERS
         else:
@@ -100,7 +108,7 @@ def parse_tree(syntax):
 
         # print("step {} depth {}".format(step, depth))
         # if len(current_node["value"]) > 0 and char != ")":
-            # print("value \"{}\"".format(current_node["value"]))
+        #     print("value \"{}\"".format(current_node["value"]))
         # step += 1
 
     # print("")

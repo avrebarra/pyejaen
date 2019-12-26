@@ -68,6 +68,70 @@ class TestParse(unittest.TestCase):
                     ],
                 },
             },
+            {
+                "given": "(((se)(ma))((ra)(!ng)))",
+                "expected": {
+                    "value": "semarang",
+                    "parent": True,
+                    "children": [
+                        {
+                            "value": "semarang",
+                            "children": [
+                                {
+                                    "value": "sema",
+                                    "children": [
+                                        {
+                                            "value": "se",
+                                            "children": [
+                                                {
+                                                    "value": "s"
+                                                },
+                                                {
+                                                    "value": "e"
+                                                },
+
+                                            ]
+                                        },
+                                        {
+                                            "value": "ma",
+                                            "children": [
+                                                {
+                                                    "value": "m"
+                                                },
+                                                {
+                                                    "value": "a"
+                                                },
+
+                                            ]
+                                        },
+                                    ]
+                                },
+                                {
+                                    "value": "rang",
+                                    "children": [
+                                        {
+                                            "value": "ra",
+                                            "children": [
+                                                {
+                                                    "value": "r"
+                                                },
+                                                {
+                                                    "value": "a"
+                                                },
+
+                                            ]
+                                        },
+                                        {
+                                            "value": "ng"
+                                        },
+
+                                    ]
+                                },
+                            ]
+                        }
+                    ],
+                },
+            },
         ]
 
         # act and assert
