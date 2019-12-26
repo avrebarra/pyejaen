@@ -2,6 +2,15 @@
 
 
 def parse(syntax):
+    # helpers
+    def add_parent_ref(child, parent):
+        child["parent_ref"] = parent
+
+    def try_clean_children(node):
+        if len(current_node["children"]) == 0:
+            current_node.pop("children", None)
+
+    # actual function
     should_stop = False
 
     result = []
@@ -21,14 +30,13 @@ def parse(syntax):
             # move back to parent, delete visited children
             current_node = current_node["parent_ref"]
             current_node["children"].pop(0)
-            if len(current_node["children"]) == 0:
-                current_node.pop("children", None)
+            try_clean_children(current_node)
 
         else:
             # add ref to parent to enable backward movements for  unvisited node
             if "visited" not in current_node:
                 for child in current_node["children"]:
-                    child["parent_ref"] = current_node
+                    add_parent_ref(child, current_node)
                 current_node["visited"] = True
 
             # dive to first children
