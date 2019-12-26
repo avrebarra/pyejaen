@@ -2,45 +2,39 @@
 
 
 def parse(syntax):
-    stack = {}
+    should_stop = False
+
     result = []
+    syntax_tree = parse_tree(syntax)
+    current_node = syntax_tree
 
-    stackdepth = 0
+    while should_stop == False:
+        # print(current_node["value"])
+        if "children" not in current_node:
 
-    # flags
-    should_merge_letters = False
+            if "parent_ref" not in current_node:
+                should_stop = True
+                break
 
-    # fill base stack
-    stack[stackdepth] = ""
+            result.append(current_node["value"])
 
-    for char in syntax:
-        # Upon finding "(" or OPEN_STACK
-        if char == "(":
-            stackdepth += 1
-            stack[stackdepth] = ""
+            # move back to parent, delete visited children
+            current_node = current_node["parent_ref"]
+            current_node["children"].pop(0)
+            if len(current_node["children"]) == 0:
+                current_node.pop("children", None)
 
-        # Upon finding ")" or CLOSE_STACK
-        elif char == ")":
-            if len(stack[stackdepth]) > 1:
-                result.append(stack[stackdepth])
-
-            stack[stackdepth - 1] += stack[stackdepth]
-            stackdepth -= 1
-
-            # clear flags
-            should_merge_letters = False
-
-        # Upon finding "!" or MERGE_LETTERS
-        elif char == "!":
-            should_merge_letters = True
-
-        # Upon finding LETTERS
         else:
-            if not should_merge_letters:
-                result.append(char)
+            # add ref to parent to enable backward movements for  unvisited node
+            if "visited" not in current_node:
+                for child in current_node["children"]:
+                    child["parent_ref"] = current_node
+                current_node["visited"] = True
 
-            stack[stackdepth] += char
+            # dive to first children
+            current_node = current_node["children"][0]
 
+    # print result
     return result
 
 
