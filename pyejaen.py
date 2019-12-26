@@ -2,9 +2,6 @@ debug_mode = False
 
 
 def parse(syntax):
-    # "((a)((ya)(m)))"
-    expected = ["a", "y", "a", "ya", "m", "yam", "ayam"]
-
     stackmem = {}
     stacknum = 0
     result = []
@@ -32,9 +29,7 @@ def parse(syntax):
             debug("   stack fill {}".format(stackmem[stacknum]))
 
     debug(result)
-    debug("Result matches expected? {}".format(expected == result))
-
-    return expected
+    return result
 
 
 def debug(p):
