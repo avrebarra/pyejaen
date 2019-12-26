@@ -1,3 +1,6 @@
+debug_mode = False
+
+
 def parse(syntax):
     # "((a)((ya)(m)))"
     expected = ["a", "y", "a", "ya", "m", "yam", "ayam"]
@@ -11,11 +14,11 @@ def parse(syntax):
 
     for char in syntax:
         if char == "(":
-            print("OPEN stack {}".format(stacknum))
+            debug("OPEN stack {}".format(stacknum))
             stacknum += 1
             stackmem[stacknum] = ""
         elif char == ")":
-            print("CLOSE stack {}".format(stacknum))
+            debug("CLOSE stack {}".format(stacknum))
 
             if len(stackmem[stacknum]) > 1:
                 result.append(stackmem[stacknum])
@@ -23,12 +26,17 @@ def parse(syntax):
             stackmem[stacknum - 1] += stackmem[stacknum]
             stacknum -= 1
         else:
-            print("ADD {}".format(char))
+            debug("ADD {}".format(char))
             stackmem[stacknum] += char
             result.append(char)
-            print("   stack fill {}".format(stackmem[stacknum]))
+            debug("   stack fill {}".format(stackmem[stacknum]))
 
-    print(result)
-    print("Result matches expected? {}".format(expected == result))
+    debug(result)
+    debug("Result matches expected? {}".format(expected == result))
 
     return expected
+
+
+def debug(p):
+    if debug_mode:
+        print(p)
