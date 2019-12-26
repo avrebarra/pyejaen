@@ -15,7 +15,19 @@ class TestParse(unittest.TestCase):
             },
             {
                 "given": "(((se)(ma))((ra)(!ng)))",
-                "expected": ["s", "e", "se", "m", "a", "ma", "sema", "r", "a", "ra", "ng", "rang", "semarang"]
+                "expected": [
+                    "s", "e", "se", "m", "a", "ma", "sema",
+                    "r", "a", "ra", "ng", "rang", "semarang"
+                ]
+            },
+            {
+                "given": "((((ku)(ra))((ku)(ra)))(((ni)(n))(ja)))",
+                "expected": [
+                    "k", "u", "ku", "r", "a", "ra", "kura",
+                    "k", "u", "ku", "r", "a", "ra", "kura", "kurakura",
+                    "n", "i", "ni", "n", "nin", "j", "a", "ja", "ninja",
+                    "kurakuraninja"
+                ]
             }
         ]
 
@@ -25,5 +37,5 @@ class TestParse(unittest.TestCase):
             self.assertEqual(result, case["expected"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
