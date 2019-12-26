@@ -1,7 +1,7 @@
 import unittest
 
 
-from pyejaen import parse
+from pyejaen import parse, parse_tree
 
 
 class TestParse(unittest.TestCase):
@@ -34,6 +34,45 @@ class TestParse(unittest.TestCase):
         # act and assert
         for case in cases:
             result = parse(case["given"])
+            self.assertEqual(result, case["expected"])
+
+    # Test that it returns correct spelling tree breakdowns
+    def test_spell_tree_correctness(self):
+        # arrange
+        cases = [
+            {
+                "given": "((a)((ya)(m)))",
+                "expected": {
+                    "value": "ayam",
+                    "parent": True,
+                    "children": [
+                        {
+                            "value": "ayam",
+                            "children": [
+                                {"value": "a"},
+                                {
+                                    "value": "yam",
+                                    "children": [
+                                        {
+                                            "value": "ya",
+                                            "children": [
+                                                {"value": "y"},
+                                                {"value": "a"}
+                                            ]
+                                        },
+                                        {"value": "m"}
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                },
+            },
+        ]
+
+        # act and assert
+        for case in cases:
+            result = parse_tree(case["given"])
             self.assertEqual(result, case["expected"])
 
 
