@@ -16,12 +16,16 @@ def parse(syntax):
             stackmem[stacknum] = ""
         elif char == ")":
             print("CLOSE stack {}".format(stacknum))
-            result.append(stackmem[stacknum])
+
+            if len(stackmem[stacknum]) > 1:
+                result.append(stackmem[stacknum])
+
             stackmem[stacknum - 1] += stackmem[stacknum]
             stacknum -= 1
         else:
             print("ADD {}".format(char))
             stackmem[stacknum] += char
+            result.append(char)
             print("   stack fill {}".format(stackmem[stacknum]))
 
     print(result)
